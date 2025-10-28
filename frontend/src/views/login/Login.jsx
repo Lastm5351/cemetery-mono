@@ -239,28 +239,42 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 flex items-center justify-center font-poppins px-4">
-      <Card className="w-full max-w-md rounded-3xl shadow-2xl">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">
+    <div className="relative min-h-screen flex items-center justify-center font-poppins px-4">
+      {/* global backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-cyan-50 to-blue-100" />
+        <div className="absolute -top-24 -left-24 h-[32rem] w-[32rem] rounded-full bg-emerald-300/50 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute top-1/3 right-0 h-[28rem] w-[28rem] rounded-full bg-cyan-300/50 blur-3xl dark:bg-cyan-700/20" />
+        <div className="absolute -bottom-32 left-1/4 h-[24rem] w-[24rem] rounded-full bg-blue-300/40 blur-3xl dark:bg-blue-700/20" />
+      </div>
+
+      <div className="relative w-full max-w-md">
+        {/* backdrop shadow */}
+        <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/25 via-cyan-400/20 to-blue-400/25 rounded-3xl blur-xl opacity-40" />
+
+        <Card className="relative overflow-hidden w-full rounded-3xl border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-2xl">
+          {/* backdrop gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/15 to-blue-400/20" />
+        <CardHeader className="relative space-y-1">
+          <CardTitle className="text-2xl text-slate-900">
             {isLogin ? "Sign In" : "Create Account"}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-600">
             {isLogin
               ? "Enter your credentials to access your account"
               : "Fill in your details to get started"}
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="relative">
           {msg.text ? (
             <Alert
-              className={`mb-4 ${
-                msg.type === "error" ? "border-red-300" : "border-emerald-300"
+              className={`mb-4 backdrop-blur shadow-md ${
+                msg.type === "error" ? "bg-rose-50/90 border-rose-200" : "bg-emerald-50/90 border-emerald-200"
               }`}
             >
               <AlertDescription
-                className={msg.type === "error" ? "text-red-700" : "text-emerald-700"}
+                className={msg.type === "error" ? "text-rose-700" : "text-emerald-700"}
               >
                 {msg.text}
               </AlertDescription>
@@ -391,7 +405,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={loading || sendingOtp}
-              className="w-full"
+              className="w-full shadow-md hover:shadow-lg transition-all"
             >
               {loading || sendingOtp
                 ? isLogin
@@ -415,10 +429,11 @@ export default function Login() {
           </div>
         </CardContent>
       </Card>
+      </div>
 
       {/* OTP Dialog */}
       <Dialog open={otpDialogOpen} onOpenChange={setOtpDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white/90 backdrop-blur border-white/60 shadow-2xl">
           <DialogHeader>
             <DialogTitle>Email Verification</DialogTitle>
             <DialogDescription>
@@ -450,10 +465,11 @@ export default function Login() {
               variant="secondary"
               onClick={resendOtp}
               disabled={sendingOtp || (!canResend && !PUBLIC_KEY)}
+              className="shadow-md hover:shadow-lg transition-all"
             >
               {sendingOtp ? "Sending…" : "Resend Code"}
             </Button>
-            <Button type="button" onClick={verifyAndCreate} disabled={loading}>
+            <Button type="button" onClick={verifyAndCreate} disabled={loading} className="shadow-md hover:shadow-lg transition-all">
               Verify & Create Account
             </Button>
           </DialogFooter>

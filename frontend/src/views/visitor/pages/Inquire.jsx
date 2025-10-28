@@ -107,28 +107,43 @@ export default function Inquire() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 flex items-center justify-center font-poppins py-10 px-4">
-      <div className="w-full max-w-2xl space-y-4">
+    <div className="relative min-h-screen flex items-center justify-center font-poppins py-10 px-4">
+      {/* global backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-cyan-50 to-blue-100" />
+        <div className="absolute -top-24 -left-24 h-[32rem] w-[32rem] rounded-full bg-emerald-300/50 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute top-1/3 right-0 h-[28rem] w-[28rem] rounded-full bg-cyan-300/50 blur-3xl dark:bg-cyan-700/20" />
+        <div className="absolute -bottom-32 left-1/4 h-[24rem] w-[24rem] rounded-full bg-blue-300/40 blur-3xl dark:bg-blue-700/20" />
+      </div>
+
+      <div className="relative w-full max-w-2xl space-y-4">
         {!isVisitorLoggedIn && (
-          <Alert variant="destructive">
-            <AlertDescription>Please login to inquire a ticket.</AlertDescription>
+          <Alert variant="destructive" className="bg-rose-50/90 backdrop-blur border-rose-200 shadow-md">
+            <AlertDescription className="text-rose-700">Please login to inquire a ticket.</AlertDescription>
           </Alert>
         )}
 
         {msg.text && (
-          <Alert variant={msg.type === "error" ? "destructive" : "default"}>
-            <AlertDescription>{msg.text}</AlertDescription>
+          <Alert variant={msg.type === "error" ? "destructive" : "default"} className={msg.type === "error" ? "bg-rose-50/90 backdrop-blur border-rose-200 shadow-md" : "bg-emerald-50/90 backdrop-blur border-emerald-200 shadow-md"}>
+            <AlertDescription className={msg.type === "error" ? "text-rose-700" : "text-emerald-700"}>{msg.text}</AlertDescription>
           </Alert>
         )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-emerald-700">Inquire a Ticket</CardTitle>
-            <CardDescription>
-              Please fill in the form below to request a burial schedule or maintenance service.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="relative">
+          {/* backdrop shadow */}
+          <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/25 via-cyan-400/20 to-blue-400/25 rounded-2xl blur-xl opacity-40" />
+
+          <Card className="relative overflow-hidden border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-lg">
+            {/* backdrop gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/15 to-blue-400/20" />
+
+            <CardHeader className="relative">
+              <CardTitle className="text-2xl font-bold text-emerald-700">Inquire a Ticket</CardTitle>
+              <CardDescription className="text-slate-600">
+                Please fill in the form below to request a burial schedule or maintenance service.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="relative">
             <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Request Type */}
               <div className="grid gap-2">
@@ -208,7 +223,7 @@ export default function Inquire() {
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                className="w-full bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all"
                 disabled={!isVisitorLoggedIn || submitting}
               >
                 {submitting ? "Submitting..." : "Submit Request"}
@@ -216,6 +231,7 @@ export default function Inquire() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

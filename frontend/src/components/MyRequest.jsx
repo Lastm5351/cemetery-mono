@@ -145,28 +145,32 @@ export default function MyRequest({ open, onOpenChange }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-3xl">
+      <DialogContent className="sm:max-w-3xl bg-white/90 backdrop-blur border-white/60 shadow-2xl">
         <DialogHeader>
-          <DialogTitle>My Requests</DialogTitle>
-          <DialogDescription>Track your submitted requests and next steps.</DialogDescription>
+          <DialogTitle className="text-2xl bg-gradient-to-r from-emerald-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent">
+            My Requests
+          </DialogTitle>
+          <DialogDescription className="text-slate-600">
+            Track your submitted requests and next steps.
+          </DialogDescription>
         </DialogHeader>
 
         {/* Alert */}
         {msg.text ? (
           <Alert
             variant={msg.type === "error" ? "destructive" : "default"}
-            className={msg.type === "error" ? "mb-3" : "mb-3 border-emerald-200 bg-emerald-50 text-emerald-700"}
+            className={msg.type === "error" ? "mb-3 bg-rose-50/90 backdrop-blur border-rose-200 shadow-md" : "mb-3 border-emerald-200 bg-emerald-50/90 backdrop-blur text-emerald-700 shadow-md"}
           >
             <AlertDescription>{msg.text}</AlertDescription>
           </Alert>
         ) : null}
 
         <Tabs value={tab} onValueChange={setTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="burial" className="gap-2">
+          <TabsList className="grid w-full grid-cols-2 bg-gradient-to-br from-emerald-50/80 to-cyan-50/80 backdrop-blur border border-emerald-100 shadow-md">
+            <TabsTrigger value="burial" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
               <ClipboardList className="h-4 w-4" /> Burial Requests
             </TabsTrigger>
-            <TabsTrigger value="maintenance" className="gap-2">
+            <TabsTrigger value="maintenance" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
               <Wrench className="h-4 w-4" /> Maintenance Requests
             </TabsTrigger>
           </TabsList>
@@ -240,12 +244,12 @@ function formatDate(v) {
 
 function SectionHeader({ title, description, onRefresh, loading }) {
   return (
-    <div className="mb-3 flex items-center justify-between">
+    <div className="mb-4 flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-200">
       <div>
-        <h3 className="text-base font-semibold">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <h3 className="text-base font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">{title}</h3>
+        <p className="text-sm text-slate-600">{description}</p>
       </div>
-      <Button variant="outline" size="sm" onClick={onRefresh} disabled={loading}>
+      <Button variant="outline" size="sm" onClick={onRefresh} disabled={loading} className="shadow-md hover:shadow-lg transition-all">
         {loading ? <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
         Refresh
       </Button>
@@ -265,10 +269,10 @@ function RequestGrid({ type, rows, loading, onCancel }) {
 
   if (!rows || rows.length === 0) {
     return (
-      <Card className="border-dashed">
+      <Card className="border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100">
         <CardHeader>
-          <CardTitle className="text-base">No requests yet</CardTitle>
-          <CardDescription>Submit a request and it will appear here.</CardDescription>
+          <CardTitle className="text-base text-slate-700">No requests yet</CardTitle>
+          <CardDescription className="text-slate-600">Submit a request and it will appear here.</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -303,13 +307,20 @@ function RequestGrid({ type, rows, loading, onCancel }) {
             : null;
 
         return (
-          <Card key={`${type}-${id}`} className="overflow-hidden">
-            <CardHeader className="pb-2">
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-base">Request ID: {id}</CardTitle>
+          <div key={`${type}-${id}`} className="relative group">
+            {/* backdrop shadow */}
+            <div className="absolute -inset-1 bg-gradient-to-br from-emerald-400/15 via-cyan-400/10 to-blue-400/15 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                  <CardDescription className="mt-1 space-y-1">
+            <Card className="relative overflow-hidden border-emerald-100/50 bg-white/80 backdrop-blur hover:shadow-lg transition-all duration-300">
+              {/* subtle gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-cyan-400/5"></div>
+
+              <CardHeader className="relative pb-2">
+                <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-base text-slate-900 font-semibold">Request ID: {id}</CardTitle>
+
+                  <CardDescription className="mt-1 space-y-1 text-slate-600">
                     <div>
                       Deceased Name:{" "}
                       <span className="font-medium text-foreground">{deceased}</span>
@@ -346,18 +357,18 @@ function RequestGrid({ type, rows, loading, onCancel }) {
               </div>
             </CardHeader>
 
-            <CardContent className="space-y-3">
-              <Separator />
+            <CardContent className="relative space-y-3">
+              <Separator className="bg-gradient-to-r from-transparent via-emerald-200 to-transparent" />
               <div className="text-sm">
-                <div className="mb-1 font-medium text-foreground">Status</div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="mb-1 font-medium text-slate-900">Status</div>
+                <div className="flex items-center gap-2 text-sm text-slate-700">
                   {statusIcon(status)}
-                  <span className="capitalize">{status}</span>
+                  <span className="capitalize font-medium">{status}</span>
                 </div>
               </div>
 
               {nextStep ? (
-                <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                <div className="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-3 text-sm text-amber-800 font-medium shadow-sm">
                   {nextStep}
                 </div>
               ) : null}
@@ -366,7 +377,7 @@ function RequestGrid({ type, rows, loading, onCancel }) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-2 shadow-md hover:shadow-lg transition-all hover:border-rose-300"
                   onClick={() => onCancel(type, id)}
                   disabled={status === "cancelled" || status === "rejected"}
                 >
@@ -376,6 +387,7 @@ function RequestGrid({ type, rows, loading, onCancel }) {
               </div>
             </CardContent>
           </Card>
+          </div>
         );
       })}
     </div>
@@ -384,15 +396,15 @@ function RequestGrid({ type, rows, loading, onCancel }) {
 
 function SkeletonCard() {
   return (
-    <Card>
+    <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
       <CardHeader className="pb-2">
-        <div className="h-4 w-40 animate-pulse rounded bg-muted" />
-        <div className="mt-2 h-3 w-28 animate-pulse rounded bg-muted" />
+        <div className="h-4 w-40 animate-pulse rounded bg-gradient-to-r from-emerald-200 to-cyan-200" />
+        <div className="mt-2 h-3 w-28 animate-pulse rounded bg-gradient-to-r from-slate-200 to-slate-300" />
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="h-3 w-24 animate-pulse rounded bg-muted" />
-        <div className="h-10 w-full animate-pulse rounded bg-muted" />
-        <div className="ml-auto h-8 w-24 animate-pulse rounded bg-muted" />
+        <div className="h-3 w-24 animate-pulse rounded bg-gradient-to-r from-slate-200 to-slate-300" />
+        <div className="h-10 w-full animate-pulse rounded bg-gradient-to-r from-slate-200 to-slate-300" />
+        <div className="ml-auto h-8 w-24 animate-pulse rounded bg-gradient-to-r from-slate-200 to-slate-300" />
       </CardContent>
     </Card>
   );
@@ -401,16 +413,16 @@ function SkeletonCard() {
 function StatusBadge({ status }) {
   switch (status) {
     case "approved":
-      return <Badge className="bg-emerald-600 hover:bg-emerald-600">Approved</Badge>;
+      return <Badge className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-md">Approved</Badge>;
     case "pending":
-      return <Badge className="bg-amber-500 hover:bg-amber-500">Pending</Badge>;
+      return <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md">Pending</Badge>;
     case "rejected":
-      return <Badge className="bg-rose-600 hover:bg-rose-600">Rejected</Badge>;
+      return <Badge className="bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white shadow-md">Rejected</Badge>;
     case "cancelled":
-      return <Badge className="bg-slate-500 hover:bg-slate-500">Cancelled</Badge>;
+      return <Badge className="bg-gradient-to-r from-slate-500 to-gray-500 hover:from-slate-600 hover:to-gray-600 text-white shadow-md">Cancelled</Badge>;
     default:
       return (
-        <Badge variant="secondary" className="capitalize">
+        <Badge variant="secondary" className="capitalize shadow-sm">
           {status}
         </Badge>
       );

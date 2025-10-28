@@ -120,32 +120,38 @@ export default function Sidebar({ base = "" }) {
     <>
       <aside
         className={cx(
-          "fixed left-0 top-0 z-40 h-screen bg-white border-r border-slate-200 flex flex-col",
-          "shadow-[0_10px_40px_-12px_rgba(2,6,23,0.15)] ring-1 ring-slate-100"
+          "fixed left-0 top-0 z-40 h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 border-r border-emerald-100/50 flex flex-col backdrop-blur",
+          "shadow-[0_10px_40px_-12px_rgba(16,185,129,0.15)] ring-1 ring-emerald-50"
         )}
         style={{ width: collapsed ? W_COLLAPSED : W_FULL }}
       >
         {/* Header card */}
-        <Card className="m-4 rounded-2xl border-slate-200 shadow-[0_12px_30px_-12px_rgba(2,6,23,0.18)]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="relative m-4 rounded-2xl border-emerald-100 bg-white/80 backdrop-blur shadow-[0_12px_30px_-12px_rgba(16,185,129,0.25)] overflow-hidden">
+          {/* subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-cyan-400/5 pointer-events-none"></div>
+
+          <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
             {/* ▶️ Profile modal trigger */}
             <button
               type="button"
               onClick={() => setProfileOpen(true)}
               title="Open Profile"
               className={cx(
-                "flex items-center gap-3 rounded-xl",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-                "hover:bg-slate-50 px-1 py-1 -ml-1"
+                "flex items-center gap-3 rounded-xl transition-all duration-300",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-cyan-50 px-2 py-1.5 -ml-1"
               )}
             >
-              <div className="grid place-items-center h-10 w-10 rounded-xl bg-indigo-600 text-white text-sm font-semibold">
-                {initials}
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur opacity-0 group-hover:opacity-75 transition duration-300"></div>
+                <div className="relative grid place-items-center h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white text-sm font-bold shadow-md">
+                  {initials}
+                </div>
               </div>
               {!collapsed && (
                 <div className="leading-tight text-left">
-                  <div className="text-[13px] font-semibold text-slate-900">{fullName}</div>
-                  <div className="text-[11px] text-slate-500">{role.replace("_", " ")}</div>
+                  <div className="text-[13px] font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">{fullName}</div>
+                  <div className="text-[11px] text-slate-600 font-medium capitalize">{role.replace("_", " ")}</div>
                 </div>
               )}
             </button>
@@ -156,28 +162,35 @@ export default function Sidebar({ base = "" }) {
               size="icon"
               onClick={() => setCollapsed((c) => !c)}
               title={collapsed ? "Expand" : "Collapse"}
-              className="h-9 w-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-[0_2px_10px_-2px_rgba(2,6,23,0.08)]"
+              className="h-9 w-9 rounded-xl border border-emerald-200 bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-cyan-50 shadow-md hover:shadow-lg transition-all"
             >
-              {collapsed ? <Menu size={18} /> : <ChevronLeft size={18} />}
+              {collapsed ? <Menu size={18} className="text-emerald-600" /> : <ChevronLeft size={18} className="text-emerald-600" />}
             </Button>
           </CardHeader>
 
           {!collapsed && (
-            <CardContent>
-              <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-                <Search size={16} className="text-slate-400" />
+            <CardContent className="relative">
+              <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50/50 to-cyan-50/50 px-3 py-2 shadow-inner backdrop-blur">
+                <Search size={16} className="text-emerald-500" />
                 <Input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder="Search..."
-                  className="border-0 bg-transparent focus-visible:ring-0 text-sm"
+                  className="border-0 bg-transparent focus-visible:ring-0 text-sm placeholder:text-slate-400"
                 />
               </div>
             </CardContent>
           )}
         </Card>
 
-        <Separator />
+        <div className="relative mx-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-emerald-100"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="h-0.5 w-20 bg-gradient-to-r from-emerald-400/0 via-emerald-400/50 to-emerald-400/0"></div>
+          </div>
+        </div>
 
         {/* Scrollable nav */}
         <ScrollArea className="flex-1 px-3 pt-2">
@@ -188,15 +201,15 @@ export default function Sidebar({ base = "" }) {
               end
               className={({ isActive }) =>
                 cx(
-                  "group flex items-center gap-3 rounded-xl p-2 text-[14px] font-medium transition-all mb-1",
+                  "group relative flex items-center gap-3 rounded-xl p-2 text-[14px] font-medium transition-all mb-1",
                   isActive
                     ? [
                         "text-white",
-                        "bg-gradient-to-r from-green-500 to-emerald-600",
+                        "bg-gradient-to-r from-emerald-500 via-cyan-500 to-blue-500",
                         "ring-1 ring-emerald-400/40",
                         "shadow-[0_14px_30px_-12px_rgba(16,185,129,0.55),0_6px_16px_-8px_rgba(2,6,23,0.25)]",
                       ].join(" ")
-                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                    : "text-slate-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-cyan-50 hover:text-emerald-700"
                 )
               }
             >
@@ -222,16 +235,19 @@ export default function Sidebar({ base = "" }) {
 
         {/* Footer logout */}
         <div className="m-4">
-          <Button
-            variant="destructive"
-            className="w-full justify-start gap-3 rounded-2xl px-3 py-6 text-[14px] font-medium"
-            onClick={logout}
-          >
-            <span className="grid place-items-center h-9 w-9 rounded-[12px] border border-red-200 bg-red-50 text-red-600">
-              <LogOut size={18} />
-            </span>
-            {!collapsed && <span>Logout</span>}
-          </Button>
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-rose-500 to-red-500 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-300"></div>
+            <Button
+              variant="destructive"
+              className="relative w-full justify-start gap-3 rounded-2xl px-3 py-6 text-[14px] font-medium bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 shadow-md hover:shadow-lg transition-all"
+              onClick={logout}
+            >
+              <span className="grid place-items-center h-9 w-9 rounded-[12px] border border-rose-200 bg-rose-50/20 text-white">
+                <LogOut size={18} />
+              </span>
+              {!collapsed && <span>Logout</span>}
+            </Button>
+          </div>
         </div>
       </aside>
 

@@ -57,6 +57,8 @@ export default function Home() {
       name: "Maria Santos",
       role: "Family Member",
       avatar: "MS",
+      gradient: "from-rose-400/20 via-pink-400/15 to-fuchsia-400/20",
+      avatarBg: "bg-rose-100 text-rose-700",
     },
     {
       id: 2,
@@ -65,6 +67,8 @@ export default function Home() {
       name: "Roberto Cruz",
       role: "Visitor",
       avatar: "RC",
+      gradient: "from-blue-400/20 via-cyan-400/15 to-teal-400/20",
+      avatarBg: "bg-blue-100 text-blue-700",
     },
     {
       id: 3,
@@ -73,6 +77,8 @@ export default function Home() {
       name: "Carmen Delgado",
       role: "Regular Visitor",
       avatar: "CD",
+      gradient: "from-purple-400/20 via-violet-400/15 to-indigo-400/20",
+      avatarBg: "bg-purple-100 text-purple-700",
     },
     {
       id: 4,
@@ -81,6 +87,8 @@ export default function Home() {
       name: "Jose Reyes",
       role: "Family Member",
       avatar: "JR",
+      gradient: "from-amber-400/20 via-orange-400/15 to-red-400/20",
+      avatarBg: "bg-amber-100 text-amber-700",
     },
   ];
 
@@ -137,9 +145,17 @@ export default function Home() {
   }, [showTestimonials, testimonials.length]);
 
   return (
+    <div className="relative">
+      {/* global backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_70%_10%,theme(colors.emerald.100/.6),transparent_70%)] dark:bg-[radial-gradient(60%_40%_at_70%_10%,theme(colors.emerald.900/.15),transparent_70%)]" />
+        <div className="absolute -top-24 -left-24 h-[32rem] w-[32rem] rounded-full bg-emerald-200/40 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute -bottom-32 -right-28 h-[28rem] w-[28rem] rounded-full bg-slate-200/40 blur-3xl dark:bg-slate-700/20" />
+      </div>
+    
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden font-poppins h-[92vh] md:h-screen flex items-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50 via-white to-white">
+      <section className="relative overflow-hidden font-poppins h-[92vh] md:h-screen flex items-center bg-gradient-to-br from-emerald-100 via-cyan-50 to-blue-100">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             {/* Copy + CTAs */}
@@ -212,15 +228,20 @@ export default function Home() {
               ].join(" ")}
             >
               <div className="relative mx-auto max-w-lg">
-                <img
-                  src="/hero-image.jpg"
-                  alt="Garden of Peace Cemetery"
-                  className={[
-                    "w-full h-auto rounded-3xl border border-slate-200 shadow-[0_40px_80px_-24px_rgba(2,6,23,.25)]",
-                    "transition-all duration-1000 ease-out delay-300",
-                    isVisible ? "opacity-100 scale-100" : "opacity-0 scale-[.98]",
-                  ].join(" ")}
-                />
+                <div className="relative">
+                  {/* backdrop shadow */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-emerald-200/30 via-slate-200/20 to-emerald-200/30 rounded-[2rem] blur-xl dark:from-emerald-900/20 dark:via-slate-800/20 dark:to-emerald-900/20" />
+                  <img
+                    src="/hero-image.jpg"
+                    alt="Garden of Peace Cemetery"
+                    className={[
+                      "relative w-full h-auto rounded-3xl border border-white/60 dark:border-white/10",
+                      "shadow-[0_40px_80px_-24px_rgba(2,6,23,.25)] dark:shadow-[0_40px_80px_-24px_rgba(0,0,0,.4)]",
+                      "transition-all duration-1000 ease-out delay-300",
+                      isVisible ? "opacity-100 scale-100" : "opacity-0 scale-[.98]",
+                    ].join(" ")}
+                  />
+                </div>
                 {/* callout 1 */}
                 <Card
                   className={[
@@ -229,6 +250,8 @@ export default function Home() {
                     isVisible
                       ? "translate-y-0 translate-x-0 opacity-100"
                       : "translate-y-3 -translate-x-3 opacity-0",
+                    // glass
+                    "bg-white/70 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 border border-white/60 dark:border-white/10 shadow-lg",
                   ].join(" ")}
                 >
                   <CardContent className="p-4">
@@ -245,6 +268,8 @@ export default function Home() {
                     isVisible
                       ? "translate-y-0 translate-x-0 opacity-100"
                       : "-translate-y-3 translate-x-3 opacity-0",
+                    // glass
+                    "bg-white/70 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 border border-white/60 dark:border-white/10 shadow-lg",
                   ].join(" ")}
                 >
                   <CardContent className="p-4">
@@ -303,15 +328,15 @@ export default function Home() {
                 title: "Easy Search",
                 body:
                   "Find graves quickly by searching with names, dates, or plot numbers.",
-                color: "emerald",
+                color: "teal",
+                gradient: "from-teal-400/30 via-cyan-400/20 to-blue-400/30",
+                borderAccent: "border-t-2 border-teal-400/50 group-hover:border-teal-500/70",
+                iconBg: "bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/40 dark:to-teal-900/30",
+                iconColor: "text-teal-600 dark:text-teal-400",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
                   </svg>
                 ),
               },
@@ -319,30 +344,28 @@ export default function Home() {
                 title: "QR Code Integration",
                 body:
                   "Scan QR codes on markers for instant memorial info and location details.",
-                color: "violet",
+                color: "indigo",
+                gradient: "from-indigo-400/30 via-purple-400/20 to-pink-400/30",
+                borderAccent: "border-t-2 border-indigo-400/50 group-hover:border-indigo-500/70",
+                iconBg: "bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950/40 dark:to-indigo-900/30",
+                iconColor: "text-indigo-600 dark:text-indigo-400",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"
-                    />
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 21h8v-8h-8v8zm2-6h4v4h-4v-4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM16 3v4h4V3h-4zM9 3v4h4V3H9z"/>
                   </svg>
                 ),
               },
               {
                 title: "Precise Mapping",
                 body: "GPS-enabled maps show the shortest, clearest path to any plot.",
-                color: "blue",
+                color: "cyan",
+                gradient: "from-cyan-400/30 via-blue-400/20 to-indigo-400/30",
+                borderAccent: "border-t-2 border-cyan-400/50 group-hover:border-cyan-500/70",
+                iconBg: "bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-950/40 dark:to-cyan-900/30",
+                iconColor: "text-cyan-600 dark:text-cyan-400",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7"
-                    />
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                   </svg>
                 ),
               },
@@ -350,15 +373,14 @@ export default function Home() {
                 title: "Maintenance Requests",
                 body:
                   "Report needs directly so staff can respond quickly and respectfully.",
-                color: "rose",
+                color: "orange",
+                gradient: "from-orange-400/30 via-amber-400/20 to-yellow-400/30",
+                borderAccent: "border-t-2 border-orange-400/50 group-hover:border-orange-500/70",
+                iconBg: "bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/40 dark:to-orange-900/30",
+                iconColor: "text-orange-600 dark:text-orange-400",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"
-                    />
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                 ),
               },
@@ -366,19 +388,30 @@ export default function Home() {
               <Card
                 key={f.title}
                 className={[
-                  "rounded-2xl shadow-sm hover:shadow-md transition-all duration-300",
-                  showSecondSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3",
+                  "group relative overflow-hidden rounded-2xl transition-all duration-500 ease-out",
+                  "bg-white/90 dark:bg-white/10 backdrop-blur-sm border border-white/60 dark:border-white/10",
+                  f.borderAccent,
+                  "hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]",
+                  "hover:bg-white/95 dark:hover:bg-white/15",
+                  showSecondSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
                 ].join(" ")}
                 style={{ transitionDelay: showSecondSection ? `${250 + i * 100}ms` : "0ms" }}
               >
-                <CardContent className="p-7">
+                {/* backdrop gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-100 transition-opacity duration-500`} />
+
+                <CardContent className="relative p-7 text-center">
                   <div
-                    className={`w-14 h-14 rounded-2xl mb-5 grid place-items-center bg-${f.color}-100 text-${f.color}-600`}
+                    className={`w-16 h-16 rounded-2xl mb-6 mx-auto grid place-items-center ${f.iconBg} ${f.iconColor} transition-all duration-300 group-hover:scale-110 group-hover:rotate-3`}
                   >
                     {f.icon}
                   </div>
-                  <CardTitle className="text-xl mb-2">{f.title}</CardTitle>
-                  <p className="text-slate-600">{f.body}</p>
+                  <CardTitle className="text-xl mb-3 text-slate-900 dark:text-slate-100 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">
+                    {f.title}
+                  </CardTitle>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+                    {f.body}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -389,29 +422,110 @@ export default function Home() {
       {/* STATS */}
       <section
         className={[
-          "bg-white py-16 lg:py-20 font-poppins transition-all duration-1000 ease-out",
+          "bg-gradient-to-br from-emerald-50 via-cyan-50 to-blue-50 py-16 lg:py-20 font-poppins transition-all duration-1000 ease-out",
           showStatsSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
         ].join(" ")}
       >
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-5 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
-              { label: "Happy Visitors", value: counters.visitors.toLocaleString() },
-              { label: "Graves Mapped", value: counters.graves.toLocaleString() },
-              { label: "Requests Served", value: counters.requests },
-              { label: "Families Helped", value: counters.families.toLocaleString() },
-              { label: "Years of Service", value: `${counters.years}+` },
+              { 
+                label: "Happy Visitors", 
+                value: counters.visitors.toLocaleString(),
+                color: "emerald",
+                gradient: "from-emerald-500/20 to-emerald-600/10",
+                iconBg: "bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/40 dark:to-emerald-800/30",
+                iconColor: "text-emerald-600 dark:text-emerald-400",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                )
+              },
+              { 
+                label: "Graves Mapped", 
+                value: counters.graves.toLocaleString(),
+                color: "blue",
+                gradient: "from-blue-500/20 to-blue-600/10",
+                iconBg: "bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/30",
+                iconColor: "text-blue-600 dark:text-blue-400",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7" />
+                  </svg>
+                )
+              },
+              { 
+                label: "Requests Served", 
+                value: counters.requests,
+                color: "violet",
+                gradient: "from-violet-500/20 to-violet-600/10",
+                iconBg: "bg-gradient-to-br from-violet-100 to-violet-200 dark:from-violet-900/40 dark:to-violet-800/30",
+                iconColor: "text-violet-600 dark:text-violet-400",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )
+              },
+              { 
+                label: "Families Helped", 
+                value: counters.families.toLocaleString(),
+                color: "rose",
+                gradient: "from-rose-500/20 to-rose-600/10",
+                iconBg: "bg-gradient-to-br from-rose-100 to-rose-200 dark:from-rose-900/40 dark:to-rose-800/30",
+                iconColor: "text-rose-600 dark:text-rose-400",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                )
+              },
+              { 
+                label: "Years of Service", 
+                value: `${counters.years}+`,
+                color: "amber",
+                gradient: "from-amber-500/20 to-amber-600/10",
+                iconBg: "bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/40 dark:to-amber-800/30",
+                iconColor: "text-amber-600 dark:text-amber-400",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )
+              },
             ].map((s, i) => (
               <Card
                 key={s.label}
-                className="shadow-sm border-slate-200 transition-all"
+                className={[
+                  "group relative overflow-hidden transition-all duration-700 ease-out",
+                  "bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-white/60 dark:border-white/10",
+                  "hover:shadow-xl hover:-translate-y-1 hover:scale-105",
+                  "hover:bg-white/90 dark:hover:bg-white/15",
+                  showStatsSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+                ].join(" ")}
                 style={{ transitionDelay: showStatsSection ? `${150 + i * 100}ms` : "0ms" }}
               >
-                <CardContent className="py-8">
-                  <div className="text-4xl lg:text-5xl font-bold text-slate-900 mb-1">
-                    {s.value}
+                {/* backdrop gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-100 transition-opacity duration-500`} />
+
+                <CardContent className="relative py-8 px-6 text-center">
+                  {/* icon */}
+                  <div className={`w-12 h-12 rounded-xl mx-auto mb-4 grid place-items-center ${s.iconBg} ${s.iconColor} transition-all duration-300 group-hover:scale-110 group-hover:rotate-6`}>
+                    {s.icon}
                   </div>
-                  <div className="text-slate-600 font-medium">{s.label}</div>
+                  
+                  {/* animated number */}
+                  <div className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-slate-100 mb-2 transition-all duration-300 group-hover:text-slate-800 dark:group-hover:text-white">
+                    <span className="inline-block transition-all duration-500 ease-out">
+                      {s.value}
+                    </span>
+                  </div>
+                  
+                  {/* label */}
+                  <div className="text-slate-600 dark:text-slate-300 font-medium text-sm transition-colors group-hover:text-slate-700 dark:group-hover:text-slate-200">
+                    {s.label}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -443,7 +557,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative max-w-4xl mx-auto flex items-center gap-4">
             {/* slider controls */}
             <Button
               variant="ghost"
@@ -453,13 +567,51 @@ export default function Home() {
                   currentTestimonial === 0 ? testimonials.length - 1 : currentTestimonial - 1
                 )
               }
-              className="absolute left-0 z-10 rounded-full bg-white shadow-md hover:shadow-lg -translate-x-1"
+              className="flex-shrink-0 rounded-full bg-white shadow-md hover:shadow-lg"
               aria-label="Previous testimonial"
             >
               <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
               </svg>
             </Button>
+
+            {/* track */}
+            <div className="overflow-hidden w-full flex-1">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+              >
+                {testimonials.map((t) => (
+                  <div key={t.id} className="w-full flex-shrink-0 px-4">
+                    <div className="relative">
+                      {/* backdrop shadow */}
+                      <div className={`absolute -inset-2 bg-gradient-to-br ${t.gradient} rounded-2xl blur-xl opacity-30`} />
+
+                      <Card className="relative overflow-hidden shadow-lg bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 border border-white/60 dark:border-white/10">
+                        {/* backdrop gradient */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${t.gradient}`} />
+
+                      <CardContent className="relative p-8 text-center max-w-2xl mx-auto">
+                        <Avatar className="h-16 w-16 mx-auto mb-6">
+                          <AvatarFallback className={`${t.avatarBg} font-semibold`}>
+                            {t.avatar}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="text-lg text-slate-700 mb-6 italic leading-relaxed">
+                          "{t.text}"
+                        </p>
+                        <Separator className="my-5" />
+                        <div>
+                          <div className="font-semibold text-slate-900 text-lg">{t.name}</div>
+                          <div className="text-slate-600 text-sm mt-1">{t.role}</div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <Button
               variant="ghost"
@@ -469,45 +621,17 @@ export default function Home() {
                   currentTestimonial === testimonials.length - 1 ? 0 : currentTestimonial + 1
                 )
               }
-              className="absolute right-0 z-10 rounded-full bg-white shadow-md hover:shadow-lg translate-x-1"
+              className="flex-shrink-0 rounded-full bg-white shadow-md hover:shadow-lg"
               aria-label="Next testimonial"
             >
               <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
               </svg>
             </Button>
+          </div>
 
-            {/* track */}
-            <div className="overflow-hidden w-full mx-12">
-              <div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
-              >
-                {testimonials.map((t) => (
-                  <div key={t.id} className="w-full flex-shrink-0 px-4">
-                    <Card className="shadow-lg">
-                      <CardContent className="p-8 text-center max-w-2xl mx-auto">
-                        <Avatar className="h-16 w-16 mx-auto mb-6">
-                          <AvatarFallback className="bg-emerald-100 text-emerald-700 font-semibold">
-                            {t.avatar}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="text-lg text-slate-700 mb-6 italic leading-relaxed">
-                          “{t.text}”
-                        </p>
-                        <Separator className="my-5" />
-                        <div>
-                          <div className="font-semibold text-slate-900 text-lg">{t.name}</div>
-                          <div className="text-slate-600 text-sm mt-1">{t.role}</div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* dots */}
+          {/* dots */}
+          <div className="max-w-4xl mx-auto">
             <div className="flex justify-center mt-8 space-x-2">
               {testimonials.map((_, i) => (
                 <button
@@ -525,5 +649,6 @@ export default function Home() {
         </div>
       </section>
     </>
+    </div>
   );
 }

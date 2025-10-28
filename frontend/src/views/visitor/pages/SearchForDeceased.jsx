@@ -700,19 +700,27 @@ export default function SearchForDeceased() {
     const hasCoords = parsed && Number.isFinite(parsed.lat) && Number.isFinite(parsed.lng);
 
     return (
-      <Card className="border-slate-200">
-        <CardHeader className="pb-2">
-          <CardDescription>
-            {row.deceased_name ? row.deceased_name : "Unnamed"} · Born {formatDate(row.birth_date)} · Died {formatDate(row.death_date)}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex items-center justify-between gap-4">
-          <div className="text-sm text-slate-600" />
-          <Button size="sm" onClick={() => onPick?.(row)}>
-            View details {hasCoords ? "and location" : ""}
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="relative">
+        {/* backdrop shadow */}
+        <div className="absolute -inset-2 bg-gradient-to-br from-violet-400/20 via-purple-400/15 to-indigo-400/20 rounded-xl blur-xl opacity-30" />
+
+        <Card className="group relative overflow-hidden border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          {/* backdrop gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-violet-400/20 via-purple-400/15 to-indigo-400/20" />
+
+          <CardHeader className="relative pb-2">
+            <CardDescription className="text-slate-700 font-medium">
+              {row.deceased_name ? row.deceased_name : "Unnamed"} · Born {formatDate(row.birth_date)} · Died {formatDate(row.death_date)}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="relative flex items-center justify-between gap-4">
+            <div className="text-sm text-slate-600" />
+            <Button size="sm" onClick={() => onPick?.(row)} className="shadow-md hover:shadow-lg">
+              View details {hasCoords ? "and location" : ""}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -720,7 +728,15 @@ export default function SearchForDeceased() {
   // UI
   // =======================================================================
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins">
+    <div className="relative min-h-screen font-poppins">
+      {/* global backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-cyan-50 to-blue-100" />
+        <div className="absolute -top-24 -left-24 h-[32rem] w-[32rem] rounded-full bg-emerald-300/50 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute top-1/3 right-0 h-[28rem] w-[28rem] rounded-full bg-cyan-300/50 blur-3xl dark:bg-cyan-700/20" />
+        <div className="absolute -bottom-32 left-1/4 h-[24rem] w-[24rem] rounded-full bg-blue-300/40 blur-3xl dark:bg-blue-700/20" />
+      </div>
+
       {/* Header */}
       <section className="pt-24 pb-8">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
@@ -729,12 +745,19 @@ export default function SearchForDeceased() {
             &nbsp;›&nbsp;<span className="text-slate-700">Search For Deceased</span>
           </div>
 
-          <Card className="border-slate-200">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-2xl sm:text-3xl">Search For Deceased</CardTitle>
-              <CardDescription>Search by name (fuzzy) with exact birth and death dates, or scan a QR code.</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="relative">
+            {/* backdrop shadow */}
+            <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/25 via-cyan-400/20 to-blue-400/25 rounded-2xl blur-xl opacity-40" />
+
+            <Card className="relative overflow-hidden border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-lg">
+              {/* backdrop gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/15 to-blue-400/20" />
+
+              <CardHeader className="relative pb-3">
+                <CardTitle className="text-2xl sm:text-3xl text-slate-900">Search For Deceased</CardTitle>
+                <CardDescription className="text-slate-600">Search by name (fuzzy) with exact birth and death dates, or scan a QR code.</CardDescription>
+              </CardHeader>
+              <CardContent className="relative">
               {/* Search form */}
               <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
@@ -815,6 +838,7 @@ export default function SearchForDeceased() {
               </div>
             </CardContent>
           </Card>
+          </div>
         </div>
       </section>
 
@@ -822,14 +846,14 @@ export default function SearchForDeceased() {
       <section className="pb-6">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-3">
           {loading && (
-            <Card>
+            <Card className="bg-white/80 backdrop-blur shadow-md">
               <CardContent className="p-6 text-center text-slate-500">
                 Loading records…
               </CardContent>
             </Card>
           )}
           {error && (
-            <Card>
+            <Card className="bg-white/80 backdrop-blur shadow-md border-rose-200">
               <CardContent className="p-6 text-center text-rose-600">
                 {error}
               </CardContent>
@@ -843,7 +867,7 @@ export default function SearchForDeceased() {
         <section className="pb-2">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-4">
             {notFoundMsg && (
-              <Card>
+              <Card className="bg-white/80 backdrop-blur shadow-md border-amber-200">
                 <CardContent className="p-6 text-center text-slate-600">
                   {notFoundMsg}
                 </CardContent>

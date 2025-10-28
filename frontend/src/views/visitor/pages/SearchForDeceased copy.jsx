@@ -502,15 +502,18 @@ export default function SearchForDeceased() {
     const parsed = parseLatLngFromToken(row?.qr_token);
     const hasCoords = parsed && Number.isFinite(parsed.lat) && Number.isFinite(parsed.lng);
     return (
-      <Card className="border-slate-200">
-        <CardHeader className="pb-2">
-          <CardDescription>
+      <Card className="group relative overflow-hidden border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        {/* backdrop gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-400/20 via-purple-400/15 to-indigo-400/20" />
+
+        <CardHeader className="relative pb-2">
+          <CardDescription className="text-slate-700 font-medium">
             {row.deceased_name ? row.deceased_name : "Unnamed"} · Born {formatDate(row.birth_date)} · Died {formatDate(row.death_date)}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex items-center justify-between gap-4">
+        <CardContent className="relative flex items-center justify-between gap-4">
           <div className="text-sm text-slate-600" />
-          <Button size="sm" onClick={() => onPick?.(row)}>
+          <Button size="sm" onClick={() => onPick?.(row)} className="shadow-md hover:shadow-lg">
             View details {hasCoords ? "and route" : ""}
           </Button>
         </CardContent>
@@ -525,7 +528,15 @@ export default function SearchForDeceased() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins">
+    <div className="relative min-h-screen font-poppins">
+      {/* global backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-cyan-50 to-blue-100" />
+        <div className="absolute -top-24 -left-24 h-[32rem] w-[32rem] rounded-full bg-emerald-300/50 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute top-1/3 right-0 h-[28rem] w-[28rem] rounded-full bg-cyan-300/50 blur-3xl dark:bg-cyan-700/20" />
+        <div className="absolute -bottom-32 left-1/4 h-[24rem] w-[24rem] rounded-full bg-blue-300/40 blur-3xl dark:bg-blue-700/20" />
+      </div>
+
       {/* Header */}
       <section className="pt-24 pb-8">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
@@ -534,12 +545,19 @@ export default function SearchForDeceased() {
             &nbsp;›&nbsp;<span className="text-slate-700">Search For Deceased</span>
           </div>
 
-          <Card className="border-slate-200">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-2xl sm:text-3xl">Search For Deceased</CardTitle>
-              <CardDescription>Search by name with exact birth and death dates, or scan a QR code.</CardDescription>
+          <div className="relative">
+            {/* backdrop shadow */}
+            <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/25 via-cyan-400/20 to-blue-400/25 rounded-2xl blur-xl opacity-40" />
+
+            <Card className="relative overflow-hidden border-white/60 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur supports-[backdrop-filter]:bg-white/40 shadow-lg">
+              {/* backdrop gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/15 to-blue-400/20" />
+
+            <CardHeader className="relative pb-3">
+              <CardTitle className="text-2xl sm:text-3xl text-slate-900">Search For Deceased</CardTitle>
+              <CardDescription className="text-slate-600">Search by name with exact birth and death dates, or scan a QR code.</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               {/* Search form */}
               <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
@@ -589,6 +607,7 @@ export default function SearchForDeceased() {
               </div>
             </CardContent>
           </Card>
+          </div>
         </div>
       </section>
 
@@ -596,10 +615,10 @@ export default function SearchForDeceased() {
       <section className="pb-6">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-3">
           {loading && (
-            <Card><CardContent className="p-6 text-center text-slate-500">Loading records…</CardContent></Card>
+            <Card className="bg-white/80 backdrop-blur shadow-md"><CardContent className="p-6 text-center text-slate-500">Loading records…</CardContent></Card>
           )}
           {error && (
-            <Card><CardContent className="p-6 text-center text-rose-600">{error}</CardContent></Card>
+            <Card className="bg-white/80 backdrop-blur shadow-md border-rose-200"><CardContent className="p-6 text-center text-rose-600">{error}</CardContent></Card>
           )}
         </div>
       </section>
@@ -609,7 +628,7 @@ export default function SearchForDeceased() {
         <section className="pb-2">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-4">
             {notFoundMsg && (
-              <Card><CardContent className="p-6 text-center text-slate-600">{notFoundMsg}</CardContent></Card>
+              <Card className="bg-white/80 backdrop-blur shadow-md border-amber-200"><CardContent className="p-6 text-center text-slate-600">{notFoundMsg}</CardContent></Card>
             )}
 
             {exactMatches.length > 0 && (
@@ -642,12 +661,19 @@ export default function SearchForDeceased() {
         <section className="pb-10">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <Card className="overflow-hidden lg:col-span-2">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Route to Grave</CardTitle>
-                  <CardDescription>From the cemetery entrance (auto-switches to your live location when within 10 km) to the grave</CardDescription>
+              <div className="relative lg:col-span-2">
+                {/* backdrop shadow */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-teal-400/30 via-cyan-400/20 to-blue-400/30 rounded-2xl blur-xl opacity-40" />
+
+                <Card className="relative overflow-hidden bg-white/80 backdrop-blur shadow-lg">
+                  {/* backdrop gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400/15 via-cyan-400/10 to-blue-400/15" />
+
+                <CardHeader className="relative pb-2">
+                  <CardTitle className="text-lg text-slate-900">Route to Grave</CardTitle>
+                  <CardDescription className="text-slate-600">From the cemetery entrance (auto-switches to your live location when within 10 km) to the grave</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="relative space-y-3">
                   {outsideNotice && (
                     <div className="rounded-md border border-amber-200 bg-amber-50 text-amber-800 px-3 py-2 text-sm">
                       You are outside of 10 km from the cemetery. Live update of the location will not apply yet. Routing from the cemetery entrance.
@@ -656,12 +682,20 @@ export default function SearchForDeceased() {
                   <div ref={setMapNode} className="w-full h-[420px]" />
                 </CardContent>
               </Card>
+              </div>
 
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Burial Record</CardTitle>
+              <div className="relative">
+                {/* backdrop shadow */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/30 via-green-400/20 to-teal-400/30 rounded-2xl blur-xl opacity-40" />
+
+                <Card className="relative overflow-hidden bg-white/80 backdrop-blur shadow-lg">
+                  {/* backdrop gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/15 via-green-400/10 to-teal-400/15" />
+
+                <CardHeader className="relative pb-2">
+                  <CardTitle className="text-lg text-slate-900">Burial Record</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2">
+                <CardContent className="relative space-y-2">
                   {scanDataForSelected && typeof scanDataForSelected === "object" ? (
                     <div className="space-y-2">
                       {(() => {
@@ -711,6 +745,7 @@ export default function SearchForDeceased() {
                   )}
                 </CardContent>
               </Card>
+              </div>
             </div>
 
             <div className="text-center">
@@ -736,12 +771,19 @@ export default function SearchForDeceased() {
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Map */}
-              <Card className="overflow-hidden lg:col-span-2">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Route to Grave</CardTitle>
-                  <CardDescription>From the cemetery entrance (auto-switches to your live location when within 10 km) to the grave</CardDescription>
+              <div className="relative lg:col-span-2">
+                {/* backdrop shadow */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-teal-400/30 via-cyan-400/20 to-blue-400/30 rounded-2xl blur-xl opacity-40" />
+
+                <Card className="relative overflow-hidden bg-white/80 backdrop-blur shadow-lg">
+                  {/* backdrop gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400/15 via-cyan-400/10 to-blue-400/15" />
+
+                <CardHeader className="relative pb-2">
+                  <CardTitle className="text-lg text-slate-900">Route to Grave</CardTitle>
+                  <CardDescription className="text-slate-600">From the cemetery entrance (auto-switches to your live location when within 10 km) to the grave</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="relative space-y-3">
                   {outsideNotice && (
                     <div className="rounded-md border border-amber-200 bg-amber-50 text-amber-800 px-3 py-2 text-sm">
                       You are outside of 10 km from the cemetery. Live update of the location will not apply yet. Routing from the cemetery entrance.
@@ -750,13 +792,21 @@ export default function SearchForDeceased() {
                   <div ref={setMapNode} className="w-full h-[420px]" />
                 </CardContent>
               </Card>
+              </div>
 
               {/* QR contents */}
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Burial Record</CardTitle>
+              <div className="relative">
+                {/* backdrop shadow */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/30 via-green-400/20 to-teal-400/30 rounded-2xl blur-xl opacity-40" />
+
+                <Card className="relative overflow-hidden bg-white/80 backdrop-blur shadow-lg">
+                  {/* backdrop gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/15 via-green-400/10 to-teal-400/15" />
+
+                <CardHeader className="relative pb-2">
+                  <CardTitle className="text-lg text-slate-900">Burial Record</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2">
+                <CardContent className="relative space-y-2">
                   {scanResult.data && typeof scanResult.data === "object" ? (
                     <div className="space-y-2">
                       {(() => {
@@ -779,6 +829,7 @@ export default function SearchForDeceased() {
                   )}
                 </CardContent>
               </Card>
+              </div>
             </div>
 
             {/* Rescan */}
@@ -795,12 +846,19 @@ export default function SearchForDeceased() {
       {locationConsent && (
         <section className="pb-8">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-            <Card className="border-emerald-200">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Live Location (debug)</CardTitle>
-                <CardDescription>Real or Mock. Export collected samples for testing.</CardDescription>
+            <div className="relative">
+              {/* backdrop shadow */}
+              <div className="absolute -inset-2 bg-gradient-to-br from-emerald-400/30 via-teal-400/20 to-cyan-400/30 rounded-2xl blur-xl opacity-40" />
+
+              <Card className="relative overflow-hidden border-emerald-200 bg-white/80 backdrop-blur shadow-lg">
+                {/* backdrop gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/15 via-teal-400/10 to-cyan-400/15" />
+
+              <CardHeader className="relative pb-2">
+                <CardTitle className="text-lg text-slate-900">Live Location (debug)</CardTitle>
+                <CardDescription className="text-slate-600">Real or Mock. Export collected samples for testing.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative">
                 <div className="flex flex-col gap-3 mb-4 md:flex-row md:items-end">
                   <div className="flex items-center gap-2">
                     <input
@@ -843,34 +901,41 @@ export default function SearchForDeceased() {
                   </div>
                 </div>
 
-                <div className="rounded-md border bg-white max-h-64 overflow-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-slate-50 sticky top-0">
+                <div className="relative rounded-md border border-emerald-200/50 bg-white/90 backdrop-blur max-h-64 overflow-auto shadow-inner">
+                  {/* table backdrop gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-teal-50/30 to-cyan-50/50 pointer-events-none" />
+
+                  <table className="relative w-full text-sm">
+                    <thead className="bg-gradient-to-r from-emerald-100/80 via-teal-100/80 to-cyan-100/80 sticky top-0 backdrop-blur">
                       <tr>
-                        <th className="text-left p-2">#</th>
-                        <th className="text-left p-2">Time</th>
-                        <th className="text-left p-2">Lat</th>
-                        <th className="text-left p-2">Lng</th>
-                        <th className="text-left p-2">±m</th>
-                        <th className="text-left p-2">Speed</th>
-                        <th className="text-left p-2">Heading</th>
-                        <th className="text-left p-2">Source</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">#</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Time</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Lat</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Lng</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">±m</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Speed</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Heading</th>
+                        <th className="text-left p-2 font-semibold text-slate-700">Source</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="relative">
                       {locSamples.length === 0 ? (
-                        <tr><td colSpan={8} className="p-3 text-slate-500">Waiting for first fix…</td></tr>
+                        <tr><td colSpan={8} className="p-3 text-slate-500 bg-white/50">Waiting for first fix…</td></tr>
                       ) : (
                         locSamples.map((s, i) => (
-                          <tr key={s.__id}>
-                            <td className="p-2">{samplesRef.current.length - locSamples.length + i + 1}</td>
-                            <td className="p-2">{s.iso}</td>
-                            <td className="p-2">{s.lat.toFixed(6)}</td>
-                            <td className="p-2">{s.lng.toFixed(6)}</td>
-                            <td className="p-2">{s.accuracy ?? "—"}</td>
-                            <td className="p-2">{s.speed ?? "—"}</td>
-                            <td className="p-2">{s.heading ?? "—"}</td>
-                            <td className="p-2">{s.source}</td>
+                          <tr key={s.__id} className="border-t border-emerald-100/50 hover:bg-emerald-50/50 transition-colors">
+                            <td className="p-2 text-slate-700">{samplesRef.current.length - locSamples.length + i + 1}</td>
+                            <td className="p-2 text-slate-600">{s.iso}</td>
+                            <td className="p-2 text-slate-700 font-medium">{s.lat.toFixed(6)}</td>
+                            <td className="p-2 text-slate-700 font-medium">{s.lng.toFixed(6)}</td>
+                            <td className="p-2 text-slate-600">{s.accuracy ?? "—"}</td>
+                            <td className="p-2 text-slate-600">{s.speed ?? "—"}</td>
+                            <td className="p-2 text-slate-600">{s.heading ?? "—"}</td>
+                            <td className="p-2">
+                              <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${s.source === 'mock' ? 'bg-purple-100 text-purple-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                {s.source}
+                              </span>
+                            </td>
                           </tr>
                         ))
                       )}
@@ -879,6 +944,7 @@ export default function SearchForDeceased() {
                 </div>
               </CardContent>
             </Card>
+            </div>
           </div>
         </section>
       )}

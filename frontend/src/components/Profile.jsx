@@ -160,10 +160,14 @@ useEffect(() => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg bg-white/90 backdrop-blur border-white/60 shadow-2xl">
         <DialogHeader>
-          <DialogTitle>My Profile</DialogTitle>
-          <DialogDescription>View and update your account information.</DialogDescription>
+          <DialogTitle className="text-2xl bg-gradient-to-r from-emerald-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent">
+            My Profile
+          </DialogTitle>
+          <DialogDescription className="text-slate-600">
+            View and update your account information.
+          </DialogDescription>
         </DialogHeader>
 
         {/* Alerts */}
@@ -173,105 +177,119 @@ useEffect(() => {
             variant={msg.type === "error" ? "destructive" : "default"}
             className={
               msg.type === "error"
-                ? "mb-2"
-                : "mb-2 border-emerald-200 bg-emerald-50 text-emerald-700"
+                ? "mb-2 bg-rose-50/90 backdrop-blur border-rose-200 shadow-md"
+                : "mb-2 border-emerald-200 bg-emerald-50/90 backdrop-blur text-emerald-700 shadow-md"
             }
           >
             <AlertDescription>{msg.text}</AlertDescription>
           </Alert>
         ) : null}
 
-        <div className="grid gap-4">
-          <Field label="Username">
-            <Input
-              name="username"
-              value={form.username}
-              onChange={onChange}
-              disabled={!editing}
-              autoComplete="username"
-            />
-          </Field>
+        <div className="relative p-4 rounded-lg bg-gradient-to-br from-slate-50/50 to-white/50 border border-emerald-100/50 shadow-inner">
+          {/* subtle backdrop gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-cyan-400/5 rounded-lg pointer-events-none"></div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="First Name">
+          <div className="relative grid gap-4">
+            <Field label="Username">
               <Input
-                name="first_name"
-                value={form.first_name}
+                name="username"
+                value={form.username}
                 onChange={onChange}
                 disabled={!editing}
-                autoComplete="given-name"
+                autoComplete="username"
+                className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
               />
             </Field>
-            <Field label="Last Name">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="First Name">
+                <Input
+                  name="first_name"
+                  value={form.first_name}
+                  onChange={onChange}
+                  disabled={!editing}
+                  autoComplete="given-name"
+                  className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
+                />
+              </Field>
+              <Field label="Last Name">
+                <Input
+                  name="last_name"
+                  value={form.last_name}
+                  onChange={onChange}
+                  disabled={!editing}
+                  autoComplete="family-name"
+                  className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
+                />
+              </Field>
+            </div>
+
+            <Field label="Email Address">
               <Input
-                name="last_name"
-                value={form.last_name}
+                type="email"
+                name="email_address"
+                value={form.email_address}
                 onChange={onChange}
                 disabled={!editing}
-                autoComplete="family-name"
+                autoComplete="email"
+                className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
+              />
+            </Field>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Role">
+                <Input value={form.role} disabled className="bg-slate-100/80 border-slate-200" />
+              </Field>
+
+              <Field label="Password">
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="•••••••• (leave blank to keep current)"
+                  value={form.password}
+                  onChange={onChange}
+                  disabled={!editing}
+                  autoComplete="new-password"
+                  className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
+                />
+              </Field>
+            </div>
+
+            <Field label="Address">
+              <Input
+                name="address"
+                value={form.address}
+                onChange={onChange}
+                disabled={!editing}
+                autoComplete="street-address"
+                className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
+              />
+            </Field>
+
+            <Field label="Phone">
+              <Input
+                name="phone"
+                value={form.phone}
+                onChange={onChange}
+                disabled={!editing}
+                autoComplete="tel"
+                className="bg-white/80 border-emerald-100 focus:border-emerald-300 transition-colors"
               />
             </Field>
           </div>
-
-          <Field label="Email Address">
-            <Input
-              type="email"
-              name="email_address"
-              value={form.email_address}
-              onChange={onChange}
-              disabled={!editing}
-              autoComplete="email"
-            />
-          </Field>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Role">
-              <Input value={form.role} disabled />
-            </Field>
-
-            <Field label="Password">
-              <Input
-                type="password"
-                name="password"
-                placeholder="•••••••• (leave blank to keep current)"
-                value={form.password}
-                onChange={onChange}
-                disabled={!editing}
-                autoComplete="new-password"
-              />
-            </Field>
-          </div>
-
-          <Field label="Address">
-            <Input
-              name="address"
-              value={form.address}
-              onChange={onChange}
-              disabled={!editing}
-              autoComplete="street-address"
-            />
-          </Field>
-
-          <Field label="Phone">
-            <Input
-              name="phone"
-              value={form.phone}
-              onChange={onChange}
-              disabled={!editing}
-              autoComplete="tel"
-            />
-          </Field>
         </div>
 
         <div className="mt-4 flex items-center justify-end gap-2">
           {!editing ? (
-            <Button onClick={() => setEditing(true)}>Edit</Button>
+            <Button onClick={() => setEditing(true)} className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-600 hover:to-cyan-600 shadow-md hover:shadow-lg transition-all">
+              Edit
+            </Button>
           ) : (
             <>
-              <Button variant="outline" onClick={handleCancel} disabled={saving}>
+              <Button variant="outline" onClick={handleCancel} disabled={saving} className="shadow-md hover:shadow-lg transition-all">
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={saving}>
+              <Button onClick={handleSave} disabled={saving} className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-600 hover:to-cyan-600 shadow-md hover:shadow-lg transition-all">
                 {saving ? "Saving…" : "Save Changes"}
               </Button>
             </>
@@ -285,7 +303,7 @@ useEffect(() => {
 function Field({ label, children }) {
   return (
     <div className="grid gap-2">
-      <Label className="text-slate-600">{label}</Label>
+      <Label className="text-emerald-600 font-semibold text-sm">{label}</Label>
       {children}
     </div>
   );
