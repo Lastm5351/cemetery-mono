@@ -94,25 +94,17 @@ app.get('/', async (_req, res) => {
 // ---- API
 app.use('/api', api);
 
-// ---- FRONTEND (built React/Vite app)
-
-// --- Serve the built frontend (resolve from backend/ up to repo root)
-const ROOT_DIR = path.resolve(__dirname, '..');                 // <repo-root>
-const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend', 'dist');   // <repo-root>/frontend/dist
-
-app.use(express.static(FRONTEND_DIR));
-
-// SPA fallback for non-API routes
-app.get(/^(?!\/api\/|\/uploads\/|\/health$).*/, (req, res) => {
-  res.sendFile(path.join(FRONTEND_DIR, 'index.html'));
-});
-
 // ---- 404 + error handlers
 app.use(notFound);
 app.use(errorHandler);
 
-// ---- start
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on http://localhost:${PORT}/visitor/home`);
-});
+// ---- Export for Vercel serverless
+module.exports = app;
+
+// ---- Start server (only in non-serverless environment)
+if (require.main === module) {
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server listening on http://localhost:${PORT}/api`);
+  });
+}
