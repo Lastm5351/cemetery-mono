@@ -83,6 +83,22 @@ $$ LANGUAGE plpgsql;
 -- Core Tables (ALL: id BIGSERIAL PK, uid CHAR(5) UNIQUE DEFAULT generate_uid())
 -- ====================================================================
 
+-- Cemetery Information (single row, id=1)
+CREATE TABLE cemetery_info (
+    id          INT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+    name        VARCHAR(255) NOT NULL DEFAULT 'Garden of Peace',
+    address     TEXT,
+    slogan      VARCHAR(500),
+    description TEXT,
+    logo_url    TEXT,
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert default cemetery info
+INSERT INTO cemetery_info (id, name, slogan, description) VALUES
+(1, 'Garden of Peace', 'A place of peace and remembrance', 'A sacred sanctuary where love transcends time');
+
 -- Users
 CREATE TABLE users (
     id             BIGSERIAL PRIMARY KEY,
