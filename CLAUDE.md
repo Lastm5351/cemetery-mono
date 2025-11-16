@@ -166,9 +166,18 @@ PORT=4000
 
 ## Deployment
 
-This project is designed for split deployment:
+This project supports multiple deployment options:
+
+### Option 1: Both on Vercel (Recommended)
+- **Frontend**: Vercel (static React app)
+- **Backend**: Vercel (serverless functions)
+- **Database**: External PostgreSQL with PostGIS (Neon, Render, or Supabase)
+- See [DEPLOYMENT_VERCEL.md](DEPLOYMENT_VERCEL.md) for complete guide
+
+### Option 2: Frontend on Vercel, Backend on Render
 - **Frontend**: Vercel (static React app)
 - **Backend**: Render (Node.js API + PostgreSQL with PostGIS)
+- See [DEPLOYMENT.md](DEPLOYMENT.md) for complete guide
 
 ### Vercel Deployment (Frontend)
 
