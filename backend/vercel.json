@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 10
+      }
     }
   ],
   "routes": [
@@ -25,16 +28,5 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "installCommand": "npm install",
-  "buildCommand": "echo 'No build required'",
-  "framework": null,
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "server.js": {
-      "maxDuration": 10
-    }
-  }
+  ]
 }
