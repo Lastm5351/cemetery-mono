@@ -26,8 +26,8 @@ const baseConfig = DATABASE_URL
 // Decide if SSL is needed (Render, Neon, etc.) or forced via DB_SSL
 const needsSSL =
   String(DB_SSL).toLowerCase() === 'true' ||
-  (baseConfig.connectionString && /render\.com/i.test(baseConfig.connectionString)) ||
-  /render\.com/i.test(DB_HOST || '');
+  (baseConfig.connectionString && /render\.com|neon\.tech/i.test(baseConfig.connectionString)) ||
+  /render\.com|neon\.tech/i.test(DB_HOST || '');
 
 const pool = new Pool({
   ...baseConfig,

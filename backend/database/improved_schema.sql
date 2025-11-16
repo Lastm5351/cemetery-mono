@@ -9,6 +9,10 @@
 -- ---------- Extensions ----------
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+-- Note: For cloud databases (Neon, Render, Supabase), skip user/role creation
+-- as they manage their own users and permissions
+-- Uncomment below only for local PostgreSQL installations:
+/*
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='cemetery_user') THEN
@@ -16,11 +20,10 @@ BEGIN
   END IF;
 END$$;
 
--- make sure it can use the db and schema
-GRANT CONNECT ON DATABASE cemetery_db TO cemetery_user;
 GRANT USAGE ON SCHEMA public TO cemetery_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO cemetery_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO cemetery_user;
+*/
 
 
 -- ---------- Drop existing objects (safe order) ----------

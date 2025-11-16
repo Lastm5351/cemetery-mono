@@ -26,6 +26,8 @@
       "dest": "server.js"
     }
   ],
+  "installCommand": "npm install",
+  "buildCommand": null,
   "env": {
     "NODE_ENV": "production"
   },
