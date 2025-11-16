@@ -27,7 +27,8 @@
     }
   ],
   "installCommand": "npm install",
-  "buildCommand": null,
+  "buildCommand": "echo 'No build required'",
+  "framework": null,
   "env": {
     "NODE_ENV": "production"
   },
