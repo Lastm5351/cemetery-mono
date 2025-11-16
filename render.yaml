@@ -1,0 +1,32 @@
+services:
+  # PostgreSQL Database
+  - type: pgsql
+    name: cemetery-db
+    databaseName: cemetery_db
+    user: cemetery_user
+    plan: free
+    postgresMajorVersion: 16
+    ipAllowList: []
+
+  # Backend API Service
+  - type: web
+    name: cemetery-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DB_SSL
+        value: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cemetery-db
+          property: connectionString
+    healthCheckPath: /health
